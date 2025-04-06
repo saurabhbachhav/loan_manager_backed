@@ -31,7 +31,7 @@ const LoanSchema: Schema = new Schema(
     },
     status: {
       type: String,
-      enum: ["NEW", "APPROVED", "REJECTED"],
+      enum: ["NEW", "APPROVED", "REJECTED", "PENDING", "verified"],
       default: "NEW",
     },
   },

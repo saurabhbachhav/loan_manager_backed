@@ -23,7 +23,7 @@ export const registerUser = async (req: Request, res: Response) => {
       assignedRole = "admin";
     } else if (
       role === "verifier" &&
-      email.endsWith("verifierverifier@example.com")
+      email.endsWith("verifier@gmail.com")
     ) {
       assignedRole = "verifier";
     } else if (role && role !== "user") {

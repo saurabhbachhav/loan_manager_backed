@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/", protect, authorize(["user"]), applyForLoan);
 
 // Get all loans (Admin only)
-router.get("/", protect, authorize(["admin"]), getLoans);
+router.get("/", protect, getLoans);
 
 // Get a single loan by ID (User, Verifier, or Admin)
 router.get(

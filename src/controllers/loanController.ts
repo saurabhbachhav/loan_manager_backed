@@ -66,32 +66,34 @@ export const getLoanById = async (req: Request, res: Response) => {
 // @access  Private (Admin or Verifier)
 export const updateLoanStatus = async (req: Request, res: Response) => {
   const { status } = req.body;
-     
+
   try {
     const loan = await Loan.findById(req.params.id);
     if (!loan) return res.status(404).json({ message: "Loan not found" });
-     
+
     // Only allow admins and verifiers to update status
     if (req.user!.role === "admin" || req.user!.role === "verifier") {
-         loan.status = status;
-         console.log("coming...");
-         try {
-           const updatedLoan = await loan.save();
-           res.json(updatedLoan);
-         } catch (error) {
-           console.error(
-             `Error updating loan status for ID ${req.params.id}:`,
-             error
-           );
-           res
-             .status(500)
-             .json({ message: "Internal Server Error", error: error.message });
-         }
-      res.json(updatedLoan);
+      loan.status = status;
+      console.log("coming...");
+
+      try {
+        const updatedLoan = await loan.save();
+        return res.json(updatedLoan); // ✅ only respond once here
+      } catch (error) {
+        console.error(
+          `Error updating loan status for ID ${req.params.id}:`,
+          error
+        );
+        return res.status(500).json({
+          message: "Internal Server Error",
+          error: error,
+        });
+      }
     } else {
-      res.status(403).json({ message: "Access denied" });
+      return res.status(403).json({ message: "Access denied" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
+
